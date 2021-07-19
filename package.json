@@ -1,0 +1,18 @@
+{
+  "name": "costumers_api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/odraudep/costumers_api.git",
+  "author": "odraudep <72766650+odraudep@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon src/app"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12",
+    "sucrase": "^3.20.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
