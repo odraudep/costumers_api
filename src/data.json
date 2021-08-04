@@ -1,11 +1,3 @@
 {
-  "costumers": [
-    {
-      "id": "123",
-      "name": "Jubileu",
-      "nacionality": "Brazil",
-      "gender": "Male",
-      "age": 22
-    }
-  ]
+  "costumers": []
 }
