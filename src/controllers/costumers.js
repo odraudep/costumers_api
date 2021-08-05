@@ -2,14 +2,25 @@ import { readFile, writeFile } from "fs/promises";
 import { resolve } from "path";
 import { nanoid } from "nanoid";
 
-export const getCostumers = async (req, res) => {
-  let data = await readFile(resolve(__dirname, "../data.json"), {
+const readData = async () => {
+  const data = await readFile(resolve(__dirname, "../data.json"), {
     encoding: "utf-8",
   });
 
-  data = JSON.parse(data).costumers;
+  return JSON.parse(data);
+};
 
-  res.json({ data });
+const writeData = async (data) => {
+  await writeFile(
+    resolve(__dirname, "../data.json"),
+    JSON.stringify(data, null, 2)
+  );
+};
+
+export const getCostumers = async (req, res) => {
+  const { costumers } = await readData();
+
+  res.json({ data: costumers });
 };
 
 export const addCostumer = async (req, res) => {
@@ -29,18 +40,11 @@ export const addCostumer = async (req, res) => {
 
   costumer.id = nanoid();
 
-  let data = await readFile(resolve(__dirname, "../data.json"), {
-    encoding: "utf-8",
-  });
-
-  data = JSON.parse(data);
+  const data = await readData();
 
   data.costumers.push(costumer);
 
-  await writeFile(
-    resolve(__dirname, "../data.json"),
-    JSON.stringify(data, null, 2)
-  );
+  await writeData(data);
 
   res.json({ data: costumer });
 };
@@ -49,11 +53,7 @@ export const updateCostumer = async (req, res) => {
   const { id } = req.params;
   const update = req.body;
 
-  let data = await readFile(resolve(__dirname, "../data.json"), {
-    encoding: "utf-8",
-  });
-
-  data = JSON.parse(data);
+  const data = await readData();
 
   const costumer = data.costumers.find((cost) => cost.id == id);
 
@@ -74,10 +74,7 @@ export const updateCostumer = async (req, res) => {
     cost.id == id ? costumer : cost
   );
 
-  await writeFile(
-    resolve(__dirname, "../data.json"),
-    JSON.stringify(data, null, 2)
-  );
+  await writeData(data);
 
   res.json({ data: costumer });
 };
