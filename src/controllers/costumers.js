@@ -20,6 +20,17 @@ export const getCostumers = async (req, res) => {
   res.json({ data: costumers });
 };
 
+export const getCostumer = async (req, res) => {
+  const { id } = req.params;
+  const data = await readData();
+
+  const costumer = data.costumers.find((costumer) => costumer.id == id);
+
+  if (!costumer) return res.json({ message: "Costumer not found" });
+
+  res.json({ data: costumer });
+};
+
 export const addCostumer = async (req, res) => {
   const costumer = req.body;
   const { name, nacionality, gender, age } = costumer;
@@ -72,7 +83,7 @@ export const deleteCostumer = async (req, res) => {
   const { id } = req.params;
   const data = await readData();
 
-  if (data.costumers.findIndex((costumer) => costumer.id == id) < 0)
+  if (!data.costumers.find((costumer) => costumer.id == id))
     return res.json({ message: "Costumer not found" });
 
   data.costumers = data.costumers.filter((costumer) => costumer.id != id);

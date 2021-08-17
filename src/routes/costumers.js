@@ -2,6 +2,7 @@ import express from "express";
 
 import {
   getCostumers,
+  getCostumer,
   addCostumer,
   updateCostumer,
   deleteCostumer,
@@ -10,6 +11,6 @@ import {
 const router = express.Router();
 
 router.route("/").get(getCostumers).post(addCostumer);
-router.route("/:id").put(updateCostumer).delete(deleteCostumer);
+router.route("/:id").get(getCostumer).put(updateCostumer).delete(deleteCostumer);
 
 export default router;
