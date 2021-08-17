@@ -1,3 +1,11 @@
 {
-  "costumers": []
+  "costumers": [
+    {
+      "name": "Trumpio",
+      "nacionality": "United States",
+      "gender": "Male",
+      "age": 56,
+      "id": "ymD9zILdMz1A-PclElFJG"
+    }
+  ]
 }

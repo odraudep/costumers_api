@@ -11,10 +11,7 @@ const readData = async () => {
 };
 
 const writeData = async (data) => {
-  await writeFile(
-    resolve(__dirname, "../data.json"),
-    JSON.stringify(data, null, 2)
-  );
+  await writeFile(resolve(__dirname, "../data.json"), JSON.stringify(data, null, 2));
 };
 
 export const getCostumers = async (req, res) => {
@@ -27,13 +24,7 @@ export const addCostumer = async (req, res) => {
   const costumer = req.body;
   const { name, nacionality, gender, age } = costumer;
 
-  if (
-    !name ||
-    !nacionality ||
-    !gender ||
-    !age ||
-    Object.keys(costumer).length > 4
-  )
+  if (!name || !nacionality || !gender || !age || Object.keys(costumer).length > 4)
     return res.status(400).json({
       message: "Invalid values",
     });
@@ -70,11 +61,25 @@ export const updateCostumer = async (req, res) => {
 
   if (err > 0) return res.status(400).json({ message: "Invalid values" });
 
-  data.costumers = data.costumers.map((cost) =>
-    cost.id == id ? costumer : cost
-  );
+  data.costumers = data.costumers.map((cost) => (cost.id == id ? costumer : cost));
 
   await writeData(data);
 
   res.json({ data: costumer });
+};
+
+export const deleteCostumer = async (req, res) => {
+  const { id } = req.params;
+  const data = await readData();
+
+  if (data.costumers.findIndex((costumer) => costumer.id == id) < 0)
+    return res.json({ message: "Costumer not found" });
+
+  data.costumers = data.costumers.filter((costumer) => costumer.id != id);
+
+  await writeData(data);
+
+  res.json({
+    data: data.costumers,
+  });
 };
